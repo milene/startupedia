@@ -1,0 +1,65 @@
+<header class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+
+      <%= link_to "Startupedia", root_path, id: "logo", :class => "brand" %>
+
+      <div class="nav-collapse">
+        <ul class="nav">
+          <li class="divider-vertical"></li>
+          <li><%= link_to "Startups", startups_path %></li>
+        </ul>
+      </div>
+      
+      <nav>
+        <ul class="nav pull-right">
+
+          <!--About and divider-->
+          <li><%= link_to "About", static_about_path %></li>
+          <li class="divider-vertical"></li>
+
+          <!--If user signed-in-->
+          <% if user_signed_in? %>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <%= current_user.email %>
+              <b class="caret"></b>
+              </a>
+              <ul class="dropdown-menu">
+                <li>My startups</li>
+                <%= link_to "Sign out", destroy_user_session_path, :method => :delete %>
+              </ul>
+
+           <!--If user not signed-in-->
+           <% else %>
+           <li><%= link_to "Sign up", new_user_registration_path %></li>
+           <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                Sign in
+              <b class="caret"></b>
+              </a>
+              <ul class="dropdown-menu">
+
+                <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+
+                <div class="controls"><%= f.email_field :email, :type => "text", :style => "margin-bottom: 15px;", :placeholder => "Email" %></div>
+
+                <div class="controls"><%= f.password_field :password, :type => "password", :style => "margin-bottom: 15px;", :placeholder => "Password" %></div>
+
+                <% if devise_mapping.rememberable? -%>
+                <div class="controls"><%= f.check_box :remember_me, :type => "checkbox", :style => "float: left; margin-right: 10px;" %> <%= f.label :remember_me %></div>
+                <% end -%>
+            
+                <button class="btn btn-primary" style="clear: left; width: 100%; height: 32px; font-size: 13px;" type="submit"><%= f.submit "Sign in" %></button>
+                <% end %>
+
+              </ul> 
+            <% end %>
+
+          </li> 
+        </ul>
+      </nav>
+
+    </div>
+  </div>
+</header>

@@ -1,0 +1,47 @@
+<%- model_class = Startup.new.class -%>
+
+<div class="row">
+  <div class="span6 offset3">
+    <div class="well">
+      <%= form_tag startups_path, :method => 'get' do %>
+        <p>
+          <%= text_field_tag :search, params[:search] %><br>
+          <%= submit_tag "Search", :name => nil, :class => 'btn btn-primary' %>
+        </p>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:name) %></th>
+      <th><%= model_class.human_attribute_name(:description) %></th>
+      <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @startups.each do |startup| %>
+      <tr>
+        <td><%= startup.name %></td>
+        <td><%= startup.description %></td>
+        <td><%=l startup.created_at %></td>
+        <td>
+          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_startup_path(startup), :class => 'btn btn-mini' %>
+          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                      startup_path(startup),
+                      :method => :delete,
+                      :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')),
+                      :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to t('.new', :default => t("helpers.links.new")),
+            new_startup_path,
+            :class => 'btn btn-primary' %>
